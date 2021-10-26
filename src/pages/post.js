@@ -5,12 +5,13 @@ import CommentCard from "../components/CommentCard";
 import LikeButtons from "../components/LikeButtons";
 import { createComment } from "../store/slices/posts";
 
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { getPost } from "../store/slices/posts";
 
 const PostPage = ({ post }) => {
   const { currentPost } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.user);
+  const history = useHistory();
 
   const {
     title,
@@ -70,6 +71,14 @@ const PostPage = ({ post }) => {
         <div className="col-md-8">
           <div className="card border-light">
             <div className="card-body ">
+              <button
+                onClick={() => {
+                  history.goBack();
+                }}
+                class="btn btn-outline-dark mb-4"
+              >
+                <i class="bi bi-arrow-left-short"></i> Regresar
+              </button>
               <h1
                 style={{ color: "#ffc107", fontWeight: "800" }}
                 className="card-title"
