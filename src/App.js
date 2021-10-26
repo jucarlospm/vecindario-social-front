@@ -15,7 +15,6 @@ import DashboardPage from "./pages/dashboard";
 import GenericPage from "./pages/generic";
 import PostPage from "./pages/post";
 
-
 import store from "./store";
 
 function App() {

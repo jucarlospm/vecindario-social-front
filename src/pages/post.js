@@ -2,17 +2,26 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import CommentCard from "../components/CommentCard";
+import LikeButtons from "../components/LikeButtons";
 import { createComment } from "../store/slices/posts";
 
 import { useParams } from "react-router-dom";
-import { getPost, updateInteraction } from "../store/slices/posts";
+import { getPost } from "../store/slices/posts";
 
 const PostPage = ({ post }) => {
   const { currentPost } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.user);
 
-  const { title, content, likes, dislikes, email, publication_date, comments } =
-    currentPost;
+  const {
+    title,
+    content,
+    likes,
+    dislikes,
+    email,
+    publication_date,
+    comments,
+    current_user_interaction,
+  } = currentPost;
   let { id } = useParams();
   const dispatch = useDispatch();
   const [comment, updateComment] = useState({
@@ -51,26 +60,6 @@ const PostPage = ({ post }) => {
     });
   };
 
-  const handleLike= (e) => {
-    const interaction = {
-        post_id: parseInt(id),
-        user_id: parseInt(user.id),
-        action: "like"
-    }
-
-    dispatch(updateInteraction(interaction));
-  };
-
-  const handleDislike= (e) => {
-    const interaction = {
-        post_id: parseInt(id),
-        user_id: parseInt(user.id),
-        action: "dislike"
-    }
-
-    dispatch(updateInteraction(interaction));
-  };
-
   useEffect(() => {
     dispatch(getPost(id));
   }, [dispatch, id]);
@@ -79,9 +68,14 @@ const PostPage = ({ post }) => {
     <div className="container my-4">
       <div className="row justify-content-md-center">
         <div className="col-md-8">
-          <div className="card">
+          <div className="card border-light">
             <div className="card-body ">
-              <h1 className="card-title">{title}</h1>
+              <h1
+                style={{ color: "#ffc107", fontWeight: "800" }}
+                className="card-title"
+              >
+                {title}
+              </h1>
               <small>
                 <b>Fecha de publicación: </b>
                 {new Date(publication_date).toLocaleString("es-CO")}
@@ -104,18 +98,13 @@ const PostPage = ({ post }) => {
                   </button>
                 </div>
                 <div className="col-7 text-end">
-                  <div class="btn-group btn-group-sm">
-                    <button class="btn btn-light" name="like" onClick={handleLike}>
-                      <i class="bi bi-hand-thumbs-up"></i>{" "}
-                      <span className="d-none d-md-inline">Me gusta </span>
-                      <span class="badge bg-light text-dark">{likes}</span>
-                    </button>
-                    <button class="btn btn-light" name="dislike" onClick={handleDislike}>
-                      <i class="bi bi-hand-thumbs-down" ></i>{" "}
-                      <span className="d-none d-md-inline">No Me gusta </span>
-                      <span class="badge bg-light text-dark">{dislikes}</span>
-                    </button>
-                  </div>
+                  <LikeButtons
+                    current_user_interaction={current_user_interaction}
+                    user_id={user.id}
+                    post_id={id}
+                    likes={likes}
+                    dislikes={dislikes}
+                  />
                 </div>
               </div>
             </div>
@@ -152,7 +141,7 @@ const PostPage = ({ post }) => {
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                   <input
-                    class="btn btn-primary"
+                    class="btn btn-warning"
                     type="submit"
                     value="Publicar"
                   />
@@ -160,9 +149,10 @@ const PostPage = ({ post }) => {
               </div>
             </div>
           </form>
-          {comments.length > 0 && comments.map((comment, index) => (
-            <CommentCard key={index} comment={comment} />
-          ))}
+          {comments.length > 0 &&
+            comments.map((comment, index) => (
+              <CommentCard key={index} comment={comment} />
+            ))}
         </div>
       </div>
     </div>

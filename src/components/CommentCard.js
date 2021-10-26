@@ -2,13 +2,19 @@ import React from "react";
 
 const CommentCard = ({ comment }) => {
   return (
-    <div className="card bg-light">
+    <div className="card border-light bg-light">
       <div className="card-body ">
-        <h4 className="card-title">
-          {comment.title}
-        </h4>
-        <small>(Commentado por: {comment.email})</small>
-        <p className="card-text">{comment.content}</p>
+        <small className="card-title">
+          {comment.email}{" "}
+          <small class="text-muted">
+            {new Date(comment.publication_date).toLocaleString("es-CO")}
+          </small>
+        </small>
+        <h5>{comment.title}</h5>
+
+        <p className="card-text">
+          <small>{comment.content}</small>
+        </p>
       </div>
     </div>
   );

@@ -8,7 +8,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 // redux
 import { getPosts, getMorePosts } from "../store/slices/posts";
 
-
 const Dashboard = () => {
   const { posts, total_data_page } = useSelector((state) => state.posts);
 
@@ -45,7 +44,7 @@ const Dashboard = () => {
             }
           >
             {posts.map((post, index) => (
-                <PostCard key={index} post={post} />
+              <PostCard key={index} post={post} />
             ))}
           </InfiniteScroll>
         </div>

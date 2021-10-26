@@ -50,25 +50,97 @@ export const postSlice = createSlice({
       state.currentPost.comments = newComments;
     },
     updateInteractionPost: (state, action) => {
-      let posts = state.posts;
       let response = action.payload;
+
+      let posts = state.posts;
       for (let i = 0; i < posts.length; i++) {
         if (posts[i].id === response.post_id) {
-          if (response.action === "like") {
-            posts[i].likes = posts[i].likes + 1;
-          } else {
-            posts[i].dislikes = posts[i].likes + 1;
+          console.log("entro");
+          if (
+            posts[i].current_user_interaction === "like" &&
+            response.action === "like"
+          ) {
+            posts[i].likes = parseInt(posts[i].likes) - 1;
+            posts[i].current_user_interaction = null;
+          } else if (
+            posts[i].current_user_interaction === "dislike" &&
+            response.action === "dislike"
+          ) {
+            posts[i].dislikes = parseInt(posts[i].dislikes) - 1;
+            posts[i].current_user_interaction = null;
+          } else if (
+            posts[i].current_user_interaction === null &&
+            response.action === "like"
+          ) {
+            posts[i].likes = parseInt(posts[i].likes) + 1;
+            posts[i].current_user_interaction = response.action;
+          } else if (
+            posts[i].current_user_interaction === null &&
+            response.action === "dislike"
+          ) {
+            posts[i].dislikes = parseInt(posts[i].dislikes) + 1;
+            posts[i].current_user_interaction = response.action;
+          } else if (
+            posts[i].current_user_interaction === "like" &&
+            response.action === "dislike"
+          ) {
+            posts[i].likes = parseInt(posts[i].likes) - 1;
+            posts[i].dislikes = parseInt(posts[i].dislikes) + 1;
+            posts[i].current_user_interaction = response.action;
+          } else if (
+            posts[i].current_user_interaction === "dislike" &&
+            response.action === "like"
+          ) {
+            posts[i].likes = parseInt(posts[i].likes) + 1;
+            posts[i].dislikes = parseInt(posts[i].dislikes) - 1;
+            posts[i].current_user_interaction = response.action;
           }
         }
       }
       state.posts = posts;
 
       let currentPost = state.currentPost;
-      if (response.action === "like") {
+
+      if (
+        currentPost.current_user_interaction === "like" &&
+        response.action === "like"
+      ) {
+        currentPost.likes = parseInt(currentPost.likes) - 1;
+        currentPost.current_user_interaction = null;
+      } else if (
+        currentPost.current_user_interaction === "dislike" &&
+        response.action === "dislike"
+      ) {
+        currentPost.dislikes = parseInt(currentPost.dislikes) - 1;
+        currentPost.current_user_interaction = null;
+      } else if (
+        currentPost.current_user_interaction === null &&
+        response.action === "like"
+      ) {
         currentPost.likes = parseInt(currentPost.likes) + 1;
-      } else {
-        currentPost.dislikes = parseInt(currentPost.likes) + 1;
+        currentPost.current_user_interaction = response.action;
+      } else if (
+        currentPost.current_user_interaction === null &&
+        response.action === "dislike"
+      ) {
+        currentPost.dislikes = parseInt(currentPost.dislikes) + 1;
+        currentPost.current_user_interaction = response.action;
+      } else if (
+        currentPost.current_user_interaction === "like" &&
+        response.action === "dislike"
+      ) {
+        currentPost.likes = parseInt(currentPost.likes) - 1;
+        currentPost.dislikes = parseInt(currentPost.dislikes) + 1;
+        currentPost.current_user_interaction = response.action;
+      } else if (
+        currentPost.current_user_interaction === "dislike" &&
+        response.action === "like"
+      ) {
+        currentPost.likes = parseInt(currentPost.likes) + 1;
+        currentPost.dislikes = parseInt(currentPost.dislikes) - 1;
+        currentPost.current_user_interaction = response.action;
       }
+
       state.currentPost = currentPost;
     },
   },
@@ -85,18 +157,20 @@ export const {
 
 export default postSlice.reducer;
 
-export const getPost = (id) => (dispatch) => {
+export const getPost = (id) => (dispatch, getState) => {
+  const { id: user_id } = getState().user.user;
   axios
-    .get(`http://localhost:8080/api/posts/${id}`)
+    .get(`http://localhost:8080/api/posts/${id}?user_id=${user_id}`)
     .then((response) => {
       dispatch(setCurrentPost(response.data));
     })
     .catch((error) => console.log(error));
 };
 
-export const getPosts = () => (dispatch) => {
+export const getPosts = () => (dispatch, getState) => {
+  const { id: user_id } = getState().user.user;
   axios
-    .get("http://localhost:8080/api/posts/")
+    .get(`http://localhost:8080/api/posts/?user_id=${user_id}`)
     .then((response) => {
       dispatch(setPostsList(response.data));
     })
@@ -105,8 +179,9 @@ export const getPosts = () => (dispatch) => {
 
 export const getMorePosts = () => (dispatch, getState) => {
   const { page } = getState().posts;
+  const { id: user_id } = getState().user.user;
   axios
-    .get(`http://localhost:8080/api/posts/?page=${page + 1}`)
+    .get(`http://localhost:8080/api/posts/?page=${page + 1}&user_id=${user_id}`)
     .then((response) => {
       dispatch(setMorePostsList(response.data));
     })

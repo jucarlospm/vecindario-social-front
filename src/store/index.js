@@ -17,8 +17,8 @@ import posts from "./slices/posts";
 import user from "./slices/user";
 
 const reducers = combineReducers({
-    posts,
-    user,
+  posts,
+  user,
 });
 
 const persistConfig = {

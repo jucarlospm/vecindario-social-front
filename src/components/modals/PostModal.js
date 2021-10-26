@@ -42,6 +42,7 @@ const PostModal = () => {
     post.user_id = user.id;
 
     dispatch(createPost(post));
+    document.getElementById("closeModalPost").click();
 
     // Reset Form
     updatePost({
@@ -130,7 +131,7 @@ const PostModal = () => {
                 class="form-control"
                 id="content"
                 name="content"
-                rows="3"
+                rows="5"
                 placeholder="Contentido del Post"
                 onChange={updateState}
                 value={content}
@@ -142,6 +143,7 @@ const PostModal = () => {
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              id="closeModalPost"
             >
               Cerrar
             </button>
