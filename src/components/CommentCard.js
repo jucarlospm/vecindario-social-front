@@ -6,7 +6,7 @@ const CommentCard = ({ comment }) => {
       <div className="card-body ">
         <small className="card-title">
           {comment.email}{" "}
-          <small class="text-muted">
+          <small className="text-muted">
             {new Date(comment.publication_date).toLocaleString("es-CO")}
           </small>
         </small>

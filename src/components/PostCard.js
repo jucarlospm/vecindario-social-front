@@ -29,12 +29,12 @@ const PostCard = ({ post }) => {
           <div className="row">
             <div className="col-5">
               <button
-                class="btn btn-light btn-sm"
+                className="btn btn-light btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target={`#modalComment${post.id}`}
               >
-                <i class="bi bi-chat-left-text"></i>{" "}
-                <span class="badge bg-light text-dark">
+                <i className="bi bi-chat-left-text"></i>{" "}
+                <span className="badge bg-light text-dark">
                   {post.comments_count}
                 </span>
               </button>

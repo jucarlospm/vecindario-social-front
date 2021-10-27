@@ -33,12 +33,12 @@ const Dashboard = () => {
             next={handleGetMorePosts}
             hasMore={total_data_page >= 10}
             loader={
-              <div class="spinner-border text-warning" role="status">
-                <span class="sr-only">Loading...</span>
+              <div className="spinner-border text-warning" role="status">
+                <span className="sr-only">Loading...</span>
               </div>
             }
             endMessage={
-              <div class="alert alert-secondary" role="alert">
+              <div className="alert alert-secondary" role="alert">
                 No Hay mas post por mostrar{" "}
               </div>
             }

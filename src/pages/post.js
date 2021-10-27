@@ -77,9 +77,9 @@ const PostPage = ({ post }) => {
                 onClick={() => {
                   history.goBack();
                 }}
-                class="btn btn-outline-dark mb-4"
+                className="btn btn-outline-dark mb-4"
               >
-                <i class="bi bi-arrow-left-short"></i> Regresar
+                <i className="bi bi-arrow-left-short"></i> Regresar
               </button>
               <h1
                 style={{ color: "#ffc107", fontWeight: "800" }}
@@ -101,9 +101,9 @@ const PostPage = ({ post }) => {
               </p>
               <div className="row">
                 <div className="col-5">
-                  <button class="btn btn-light btn-sm">
-                    <i class="bi bi-chat-left-text"></i>{" "}
-                    <span class="badge bg-light text-dark">
+                  <button className="btn btn-light btn-sm">
+                    <i className="bi bi-chat-left-text"></i>{" "}
+                    <span className="badge bg-light text-dark">
                       {comments.length}
                     </span>
                   </button>
@@ -124,14 +124,14 @@ const PostPage = ({ post }) => {
             <div className="card">
               <div className="card-body">
                 {error ? (
-                  <div class="alert alert-danger" role="alert">
+                  <div className="alert alert-danger" role="alert">
                     Todos los campos son requeridos
                   </div>
                 ) : null}
-                <div class="mb-3">
+                <div className="mb-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="title"
                     name="title"
                     placeholder="Nombre del Post"
@@ -139,9 +139,9 @@ const PostPage = ({ post }) => {
                     value={comment.title}
                   />
                 </div>
-                <div class="mb-3">
+                <div className="mb-3">
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id="content"
                     name="content"
                     rows="3"
@@ -150,9 +150,9 @@ const PostPage = ({ post }) => {
                     value={comment.content}
                   ></textarea>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                   <input
-                    class="btn btn-warning"
+                    className="btn btn-warning"
                     type="submit"
                     value="Publicar"
                   />

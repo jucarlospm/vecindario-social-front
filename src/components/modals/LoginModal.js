@@ -24,36 +24,36 @@ const LoginModal = () => {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="modalLogin"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
+      <div className="modal-dialog">
+        <div className="modal-content">
           <form onSubmit={handleGetUser} method="post">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Ingresa tu email para publicar e interactuar
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <p>
                 Para poder interactuar o publicar posts es necesario saber tu
                 cuenta de correo electronico
               </p>
 
-              <div class="mb-3">
+              <div className="mb-3">
                 <input
                   type="email"
-                  class="form-control"
+                  className="form-control"
                   id="email"
                   name="email"
                   placeholder="username@vecindario.com"
@@ -63,16 +63,16 @@ const LoginModal = () => {
                 />
               </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-dark"
+                className="btn btn-dark"
                 data-bs-dismiss="modal"
                 id="closeModalPost"
               >
                 Cerrar
               </button>
-              <input type="submit" class="btn btn-warning" value="Ingresar" />
+              <input type="submit" className="btn btn-warning" value="Ingresar" />
             </div>
           </form>
         </div>

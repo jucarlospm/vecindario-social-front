@@ -53,7 +53,7 @@ export const postSlice = createSlice({
       let posts = state.posts;
       for (let i = 0; i < posts.length; i++) {
         if (posts[i].id === response.post_id) {
-            posts[i].comments_count = parseInt(posts[i].comments_count) + 1;          
+          posts[i].comments_count = parseInt(posts[i].comments_count) + 1;
         }
       }
       state.posts = posts;
