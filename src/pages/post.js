@@ -43,6 +43,11 @@ const PostPage = ({ post }) => {
   const handleCreateComment = (e) => {
     e.preventDefault();
 
+    if (user.id === 0) {
+      Toast("warn", "Debes ingresar tu email para poder interactuar");
+      return;
+    }
+
     // Validate
     if (title.trim() === "" || content.trim() === "") {
       updateError(true);

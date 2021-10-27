@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { api } from '../../config/api';
 // axios
 import axios from "axios";
 
@@ -168,7 +168,7 @@ export default postSlice.reducer;
 export const getPost = (id) => (dispatch, getState) => {
   const { id: user_id } = getState().user.user;
   axios
-    .get(`http://localhost:8080/api/posts/${id}?user_id=${user_id}`)
+    .get(`${api}/posts/${id}?user_id=${user_id}`)
     .then((response) => {
       dispatch(setCurrentPost(response.data));
     })
@@ -178,7 +178,7 @@ export const getPost = (id) => (dispatch, getState) => {
 export const getPosts = () => (dispatch, getState) => {
   const { id: user_id } = getState().user.user;
   axios
-    .get(`http://localhost:8080/api/posts/?user_id=${user_id}`)
+    .get(`${api}/posts/?user_id=${user_id}`)
     .then((response) => {
       dispatch(setPostsList(response.data));
     })
@@ -189,7 +189,7 @@ export const getMorePosts = () => (dispatch, getState) => {
   const { page } = getState().posts;
   const { id: user_id } = getState().user.user;
   axios
-    .get(`http://localhost:8080/api/posts/?page=${page + 1}&user_id=${user_id}`)
+    .get(`${api}/posts/?page=${page + 1}&user_id=${user_id}`)
     .then((response) => {
       dispatch(setMorePostsList(response.data));
     })
@@ -198,7 +198,7 @@ export const getMorePosts = () => (dispatch, getState) => {
 
 export const createPost = (post) => (dispatch) => {
   axios
-    .post("http://localhost:8080/api/posts/", post)
+    .post(`${api}/api/posts/`, post)
     .then((response) => {
       dispatch(addNewPostToList(response.data.body));
     })
@@ -208,7 +208,7 @@ export const createPost = (post) => (dispatch) => {
 export const createComment = (comment) => (dispatch, getState) => {
   const { email } = getState().user.user;
   axios
-    .post("http://localhost:8080/api/comments/", comment)
+    .post(`${api}/comments/`, comment)
     .then((response) => {
       let responseData = response.data.data;
       responseData.email = email;
@@ -220,7 +220,7 @@ export const createComment = (comment) => (dispatch, getState) => {
 
 export const updateInteraction = (interaction) => (dispatch) => {
   axios
-    .post("http://localhost:8080/api/posts/interaction", interaction)
+    .post(`${api}/posts/interaction`, interaction)
     .then((response) => {
       dispatch(updateInteractionPost(interaction));
     })

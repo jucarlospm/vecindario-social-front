@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { api } from '../../config/api';
+
 // axios
 import axios from "axios";
 
@@ -22,12 +24,13 @@ export const { setUser } = postSlice.actions;
 export default postSlice.reducer;
 
 export const getUser = (email) => (dispatch) => {
+  console.error(api)
   axios
-    .get(`http://localhost:8080/api/users/${email}`)
+    .get(`${api}/users/${email}`)
     .then((response) => {
       if (response.status === 204) {
         axios
-          .post(`http://localhost:8080/api/users/`, {
+          .post(`${api}/users/`, {
             email: email,
           })
           .then((response) => {
