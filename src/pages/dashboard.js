@@ -53,7 +53,7 @@ const Dashboard = () => {
             }
             endMessage={
               <div className="alert alert-secondary" role="alert">
-                No Hay mas post por mostrar{" "}
+                No hay mas post por mostrar{" "}
               </div>
             }
           >
