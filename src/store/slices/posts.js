@@ -165,8 +165,7 @@ export const {
 
 export default postSlice.reducer;
 
-export const getPost = (id) => (dispatch, getState) => {
-  const { id: user_id } = getState().user.user;
+export const getPost = (id, user_id) => (dispatch, getState) => {
   axios
     .get(`${api}/posts/${id}?user_id=${user_id}`)
     .then((response) => {
@@ -175,8 +174,7 @@ export const getPost = (id) => (dispatch, getState) => {
     .catch((error) => console.log(error));
 };
 
-export const getPosts = () => (dispatch, getState) => {
-  const { id: user_id } = getState().user.user;
+export const getPosts = (user_id) => (dispatch, getState) => {
   axios
     .get(`${api}/posts/?user_id=${user_id}`)
     .then((response) => {
@@ -185,9 +183,8 @@ export const getPosts = () => (dispatch, getState) => {
     .catch((error) => console.log(error));
 };
 
-export const getMorePosts = () => (dispatch, getState) => {
+export const getMorePosts = (user_id) => (dispatch, getState) => {
   const { page } = getState().posts;
-  const { id: user_id } = getState().user.user;
   axios
     .get(`${api}/posts/?page=${page + 1}&user_id=${user_id}`)
     .then((response) => {

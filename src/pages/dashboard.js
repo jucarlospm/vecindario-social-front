@@ -10,15 +10,16 @@ import { getPosts, getMorePosts } from "../store/slices/posts";
 
 const Dashboard = () => {
   const { posts, total_data_page } = useSelector((state) => state.posts);
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    dispatch(getPosts(user.id));
+  }, [dispatch, user.id]);
 
   const handleGetMorePosts = () => {
-    dispatch(getMorePosts());
+    dispatch(getMorePosts(user.id));
   };
 
   if (posts.length === 0) {

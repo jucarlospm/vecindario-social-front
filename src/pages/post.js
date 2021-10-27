@@ -69,8 +69,8 @@ const PostPage = ({ post }) => {
   };
 
   useEffect(() => {
-    dispatch(getPost(id));
-  }, [dispatch, id]);
+    dispatch(getPost(id, user.id));
+  }, [dispatch, id, user.id]);
 
   return (
     <div className="container my-4">
