@@ -1,9 +1,14 @@
-import Navbar from "./components/Navbar";
 // import PostsList from "./components/PostsList";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 // Modals
 import PostModal from "./components/modals/PostModal";
+
+// Components
+import Navbar from "./components/Navbar";
+import Favicon from "./assets/vecindario-fav-icon.png";
 
 // Redux
 import { Provider } from "react-redux";
@@ -16,6 +21,7 @@ import GenericPage from "./pages/generic";
 import PostPage from "./pages/post";
 
 import store from "./store";
+import LoginModal from "./components/modals/LoginModal";
 
 function App() {
   let persistor = persistStore(store);
@@ -24,6 +30,10 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
+          <Helmet>
+            <title>Vecinadario Social</title>
+            <link rel="icon" href={Favicon} type="image/png" />
+          </Helmet>
           <Navbar />
 
           <Switch>
@@ -45,6 +55,8 @@ function App() {
           </Switch>
 
           <PostModal />
+          <LoginModal />
+          <ToastContainer />
         </Router>
       </PersistGate>
     </Provider>

@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import { updateInteraction } from "../store/slices/posts";
+import { Toast } from "./Toast";
 
 const LikeButtons = ({
   current_user_interaction,
@@ -19,6 +20,11 @@ const LikeButtons = ({
       action: "like",
     };
 
+    if (interaction.user_id === 0) {
+      Toast("warn", "Debes ingresar tu email para poder interactuar");
+      return;
+    }
+
     dispatch(updateInteraction(interaction));
   };
 
@@ -28,6 +34,11 @@ const LikeButtons = ({
       user_id: parseInt(user_id),
       action: "dislike",
     };
+
+    if (interaction.user_id === 0) {
+      Toast("warn", "Debes ingresar tu email para poder interactuar");
+      return;
+    }
 
     dispatch(updateInteraction(interaction));
   };

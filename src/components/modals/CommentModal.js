@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../store/slices/posts";
+import { createComment } from "../../store/slices/posts";
 import { getUser } from "../../store/slices/user";
 import { Toast } from "../Toast";
 
-const PostModal = () => {
+const CommentModal = ({ post_id }) => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [post, updatePost] = useState({
+  const [comment, updateComment] = useState({
     title: "",
     content: "",
   });
@@ -15,8 +15,8 @@ const PostModal = () => {
   const [error, updateError] = useState(false);
 
   const updateState = (e) => {
-    updatePost({
-      ...post,
+    updateComment({
+      ...comment,
       [e.target.name]: e.target.value,
     });
   };
@@ -26,12 +26,11 @@ const PostModal = () => {
 
     const email = e.currentTarget.email.value;
     dispatch(getUser(email));
-    Toast("success", "Ha ingresado su email correctamente", "top-center");
   };
 
-  const { title, content } = post;
+  const { title, content } = comment;
 
-  const handleCreatePost = (e) => {
+  const handleCreateComment = (e) => {
     e.preventDefault();
 
     // Validate
@@ -41,14 +40,15 @@ const PostModal = () => {
     }
 
     updateError(false);
-    post.user_id = user.id;
+    comment.user_id = user.id;
+    comment.post_id = post_id;
 
-    dispatch(createPost(post));
-    document.getElementById("closeModalPost").click();
-    Toast("success", "Post agregado correctamente", "top-center");
+    dispatch(createComment(comment));
+    document.getElementById(`closeModalPost${post_id}`).click();
+    Toast("success", "Comentario agregado correctamente", "top-center");
 
     // Reset Form
-    updatePost({
+    updateComment({
       title: "",
       content: "",
     });
@@ -60,7 +60,7 @@ const PostModal = () => {
         <form onSubmit={handleGetUser} method="post">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Ingresa tu email para publicar e interactuar
+              Ingresa tu email
             </h5>
             <button
               type="button"
@@ -71,8 +71,8 @@ const PostModal = () => {
           </div>
           <div class="modal-body">
             <p>
-              Para poder interactuar o publicar posts es necesario saber tu
-              cuenta de correo electronico
+              Para poder comentar este post es necesario saber tu cuenta de
+              correo electronico
             </p>
 
             <div class="mb-3">
@@ -96,10 +96,10 @@ const PostModal = () => {
       </div>
     ) : (
       <div class="modal-content">
-        <form onSubmit={handleCreatePost} method="post">
+        <form onSubmit={handleCreateComment} method="post">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Publicar Post{" "}
+              Comentar Post{" "}
             </h5>
             <button
               type="button"
@@ -120,7 +120,7 @@ const PostModal = () => {
                 class="form-control"
                 id="title"
                 name="title"
-                placeholder="Nombre del Post"
+                placeholder="Titulo del comentario"
                 onChange={updateState}
                 value={title}
               />
@@ -131,7 +131,7 @@ const PostModal = () => {
                 id="content"
                 name="content"
                 rows="5"
-                placeholder="Contentido del Post"
+                placeholder="Contentido del comentario"
                 onChange={updateState}
                 value={content}
               ></textarea>
@@ -142,11 +142,11 @@ const PostModal = () => {
               type="button"
               class="btn btn-dark"
               data-bs-dismiss="modal"
-              id="closeModalPost"
+              id={`closeModalPost${post_id}`}
             >
               Cerrar
             </button>
-            <input class="btn btn-warning" type="submit" value="Publicar" />
+            <input class="btn btn-warning" type="submit" value="Comentar" />
           </div>
         </form>
       </div>
@@ -155,7 +155,7 @@ const PostModal = () => {
   return (
     <div
       class="modal fade"
-      id="modalPost"
+      id={`modalComment${post_id}`}
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -165,4 +165,4 @@ const PostModal = () => {
   );
 };
 
-export default PostModal;
+export default CommentModal;

@@ -45,9 +45,18 @@ export const postSlice = createSlice({
       state.posts = newPosts;
     },
     addNewComment: (state, action) => {
+      let response = action.payload;
       let newComments = state.currentPost.comments;
-      newComments.unshift(action.payload);
+      newComments.unshift(response);
       state.currentPost.comments = newComments;
+
+      let posts = state.posts;
+      for (let i = 0; i < posts.length; i++) {
+        if (posts[i].id === response.post_id) {
+            posts[i].comments_count = parseInt(posts[i].comments_count) + 1;          
+        }
+      }
+      state.posts = posts;
     },
     updateInteractionPost: (state, action) => {
       let response = action.payload;
@@ -55,7 +64,6 @@ export const postSlice = createSlice({
       let posts = state.posts;
       for (let i = 0; i < posts.length; i++) {
         if (posts[i].id === response.post_id) {
-          console.log("entro");
           if (
             posts[i].current_user_interaction === "like" &&
             response.action === "like"

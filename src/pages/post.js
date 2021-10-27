@@ -7,6 +7,7 @@ import { createComment } from "../store/slices/posts";
 
 import { useParams, useHistory } from "react-router-dom";
 import { getPost } from "../store/slices/posts";
+import { Toast } from "../components/Toast";
 
 const PostPage = ({ post }) => {
   const { currentPost } = useSelector((state) => state.posts);
@@ -53,6 +54,7 @@ const PostPage = ({ post }) => {
     comment.post_id = parseInt(id);
 
     dispatch(createComment(comment));
+    Toast("success", "Comentario agregado correctamente", "top-center");
 
     // Reset Form
     updateComment({

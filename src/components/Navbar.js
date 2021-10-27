@@ -4,6 +4,7 @@ import { logoutUser } from "../store/slices/user";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Toast } from "./Toast";
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.user);
@@ -13,86 +14,121 @@ const Navbar = () => {
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logoutUser());
+    document.getElementById("offmenu").click();
+    Toast("success", "Ha cerrado sesión correctamente", "top-center");
+  };
+
+  const handleClickItem = (e) => {
+    document.getElementById("offmenu").click();
   };
 
   return (
-    <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-      <div className="container">
+    <nav class="navbar navbar-light sticky-top bg-light">
+      <div class="container">
         <Link className="navbar-brand" to="/">
           <img src={Logo} alt="" height="30" /> Social
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+        <div class="d-flex">
+          <button
+            class="btn btn-warning me-4 d-inline d-none d-sm-block"
+            data-bs-toggle="modal"
+            data-bs-target="#modalPost"
+          >
+            Publicar Post
+          </button>
+          <button
+            class="navbar-toggler"
+            type="button"
+            id="offmenu"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div
+          class="offcanvas offcanvas-end"
+          tabindex="-1"
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
         >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div className="navbar-nav ms-auto">
+          <div class="offcanvas-header">
+            <img src={Logo} alt="" height="40" />
             <button
-              class="btn btn-warning"
-              data-bs-toggle="modal"
-              data-bs-target="#modalPost"
-            >
-              Publicar Post
-            </button>
-            <li class="nav-item dropdown ms-4">
-              <Link
-                className="nav-link dropdown-toggle"
-                id="navbarDarkDropdownMenuLink"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+              type="button"
+              class="btn-close text-reset"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="d-grid gap-2 d-block d-sm-none">
+              <button
+                class="btn btn-warning me-4 d-inline"
+                data-bs-toggle="modal"
+                onClick={handleClickItem}
+                data-bs-target="#modalPost"
               >
-                <i class="bi bi-emoji-smile"></i> {user.email}
-              </Link>
-              <ul
-                class="dropdown-menu dropdown-menu-light dropdown-menu-lg-start"
-                aria-labelledby="navbarDarkDropdownMenuLink"
-              >
-                <li>
-                  <Link className="dropdown-item" to="/profile">
-                    Mi Perfil
+                Publicar Post
+              </button>
+            </div>
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <spam className="nav-link">
+                  <b>{user.email ? `${user.email}` : ``}</b>
+                </spam>
+              </li>
+              <li class="nav-item">
+                <Link
+                  className="nav-link"
+                  onClick={handleClickItem}
+                  to="/profile"
+                >
+                  Mi Perfil
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link
+                  className="nav-link"
+                  onClick={handleClickItem}
+                  to="/messages"
+                >
+                  Mensajes
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link
+                  className="nav-link"
+                  onClick={handleClickItem}
+                  to="/groups"
+                >
+                  Grupos
+                </Link>
+              </li>
+              {user.id !== 0 ? (
+                <li class="nav-item">
+                  <Link
+                    className="nav-link"
+                    onClick={handleLogout}
+                    aria-current="page"
+                  >
+                    <b>Salir</b>
                   </Link>
                 </li>
-                <li>
-                  <Link className="dropdown-item" to="/messages">
-                    Mensajes
+              ) : (
+                <li class="nav-item">
+                  <Link
+                    className="nav-link"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalLogin"
+                    onClick={handleClickItem}
+                  >
+                    <b>Ingresar</b>
                   </Link>
                 </li>
-                <li>
-                  <Link className="dropdown-item" to="/groups">
-                    Grupos
-                  </Link>
-                </li>
-                {user.id !== 0 ? (
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      onClick={handleLogout}
-                      aria-current="page"
-                    >
-                      <b>Salir</b>
-                    </a>
-                  </li>
-                ) : (
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      onClick={handleLogout}
-                      aria-current="page"
-                    >
-                      <b>Ingresar</b>
-                    </a>
-                  </li>
-                )}
-              </ul>
-            </li>
+              )}
+            </ul>
           </div>
         </div>
       </div>
