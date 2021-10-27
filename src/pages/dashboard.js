@@ -21,6 +21,20 @@ const Dashboard = () => {
     dispatch(getMorePosts());
   };
 
+  if (posts.length === 0) {
+    return (
+      <div className="container mt-4">
+        <div className="row justify-content-md-center">
+          <div className="col-md-8">
+            <div className="alert alert-secondary" role="alert">
+              Aun no existen post para mostrar. Se el primero :)
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mt-4">
       <div className="row justify-content-md-center">

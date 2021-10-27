@@ -198,7 +198,7 @@ export const getMorePosts = () => (dispatch, getState) => {
 
 export const createPost = (post) => (dispatch) => {
   axios
-    .post(`${api}/api/posts/`, post)
+    .post(`${api}/posts/`, post)
     .then((response) => {
       dispatch(addNewPostToList(response.data.body));
     })
